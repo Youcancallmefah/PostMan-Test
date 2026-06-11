@@ -1,0 +1,215 @@
+{
+  "info": {
+    "_postman_id": "e30c3795-5d20-4f73-ab82-41031c47df17",
+    "name": "Futureskill_test",
+    "description": "learn postman post get put delete basic step",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54757343",
+    "_collection_link": "https://go.postman.co/collection/54757343-e30c3795-5d20-4f73-ab82-41031c47df17?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "GetAPost",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "pm.test(\"Response body success\", function () {\r",
+              "    pm.expect(pm.response.text()).to.include(\"aut\");\r",
+              "});\r",
+              "pm.test(\"Content-Type header is present\", function () {\r",
+              "    pm.response.headers.get(\"Content-Type\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/posts",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CrateAPost",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "pm.test(\"successful POST request\", function () {\r",
+              "   pm.expect( pm.response.code).to.be.oneOf([200,201]);\r",
+              "});\r",
+              "pm.test(\"Status code name has string\", function () {\r",
+              "    pm.response.to.have.status(\"Created\");\r",
+              "});\r",
+              "pm.test(\"Response body success\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.id).to.equal(101);\r",
+              "    pm.expect(jsonData.body).to.equal(\"bar\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Content-Type header is present\", function () {\r",
+              "  pm.response.headers.has(\"Content-Type\",\"application/json; charset=utf-8\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": " {\r\n    \"title\": \"foo\",\r\n    \"body\": \"bar\",\r\n    \"userId\": 1\r\n }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/posts",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateAPost",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "pm.test(\"Response body success\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.title).to.equal(\"futureskill\");\r",
+              "});\r",
+              "pm.test(\"Content-Type header is present\", function () {\r",
+              "    pm.response.headers.get(\"Content-Type\",\"application/json; charset=utf-8\");\r",
+              "});\r",
+              "let response = pm.response.json()\r",
+              "pm.environment.set(\"id\",response.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": " {\r\n    \"title\": \"futureskill\",\r\n    \"body\": \"bar\",\r\n    \"userId\": 1\r\n }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseURL}}/posts/:id",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "posts",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteAPost",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response body is empty\", function () {\r",
+              "    var jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.be.empty;\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/posts/:id",
+          "host": [
+            "{{baseURL}}"
+          ],
+          "path": [
+            "posts",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{id}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
